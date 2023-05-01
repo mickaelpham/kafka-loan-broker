@@ -1,6 +1,7 @@
 import { type Kafka, type Message } from 'kafkajs';
 import { ulid } from 'ulid';
 import { parseHeaders } from './utils';
+import { logger } from './logger';
 
 interface ScatterGatherContainer {
   start: () => Promise<void>;
@@ -45,13 +46,13 @@ export default ({
         eachMessage: async ({ message }) => {
           const { correlationId } = parseHeaders(message.headers);
           if (correlationId === undefined) {
-            console.error('received message without correlationId');
+            logger.error('received message without correlationId');
             return;
           }
 
           const gatherResponse = replies.get(correlationId);
           if (gatherResponse === undefined) {
-            console.log('message is not for this reply container');
+            logger.info('message is not for this reply container');
             return;
           }
           const { messages, maxReplies, resolve } = gatherResponse;
@@ -97,8 +98,12 @@ export default ({
         // send the message
         producer.send({ topic, messages: [messageWithHeaders] }).catch(reject);
 
+        logger.debug('about to set the timeout');
+
         // set a timeout to ensure we don't gather for too long
         setTimeout(() => {
+          logger.warn('timeout in scatter-gather container');
+
           // ensure we remove the gatherResponse from the map
           replies.delete(correlationId);
 

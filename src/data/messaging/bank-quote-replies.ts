@@ -2,7 +2,7 @@ import { Kafka } from 'kafkajs';
 import scatterGatherContainer from './scatter-gather-container';
 import { ulid } from 'ulid';
 
-const brokers = (process.env.KAFKA_BROKER ?? '').split(',');
+const brokers = (process.env.KAFKA_BROKERS ?? '').split(',');
 
 const kafka = new Kafka({ brokers, clientId: 'bank-quote-replies' });
 
