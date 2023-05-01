@@ -1,5 +1,6 @@
 import express, { type RequestHandler } from 'express';
 import { isValidLoanAmount, isValidSsn } from './validation';
+import { newLoanApplication } from '../../../business/flows/new-loan-application';
 
 export const quotesRouter = express.Router();
 
@@ -16,5 +17,6 @@ quotesRouter.post('/quotes', (async (req, res) => {
     return;
   }
 
-  res.status(202).json({ message: 'loan request accepted' });
+  const result = await newLoanApplication({ ssn, amount });
+  res.json(result);
 }) as RequestHandler);
