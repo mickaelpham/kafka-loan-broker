@@ -1,10 +1,14 @@
-import { Kafka } from 'kafkajs';
+import { Kafka, logLevel } from 'kafkajs';
 import scatterGatherContainer from './scatter-gather-container';
 import { ulid } from 'ulid';
 
 const brokers = (process.env.KAFKA_BROKERS ?? '').split(',');
 
-const kafka = new Kafka({ brokers, clientId: 'bank-quote-replies' });
+const kafka = new Kafka({
+  brokers,
+  clientId: 'bank-quote-replies',
+  logLevel: logLevel.NOTHING,
+});
 
 const replyTopic = process.env.KAFKA_TOPIC_BANK_QUOTE_REPLIES;
 if (replyTopic === undefined) {

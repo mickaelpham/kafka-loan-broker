@@ -6,6 +6,8 @@
     "lint": "npm run prettier:check && eslint src",
     "prettier:check": "prettier --check src",
     "prettier:write": "prettier --write src",
+    "start": "concurrently npm:start:web",
+    "start:web": "node -r dotenv/config dist/web/server.js",
     "watch": "tsc -w"
   },
   "dependencies": {
@@ -22,6 +24,7 @@
     "@types/node": "^18.16.3",
     "@types/split": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "concurrently": "^8.0.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
