@@ -6,9 +6,13 @@
     "lint": "npm run prettier:check && eslint src",
     "prettier:check": "prettier --check src",
     "prettier:write": "prettier --write src",
-    "start": "concurrently npm:start:web npm:start:credit-score",
+    "start": "concurrently npm:start:web npm:start:credit-score npm:start:capital-one npm:start:bank-of-america npm:start:chase npm:start:wells-fargo",
     "start:web": "node -r dotenv/config dist/web/server.js",
     "start:credit-score": "node -r dotenv/config dist/credit-score-service/index.js",
+    "start:capital-one": "node -r dotenv/config dist/banks/capital-one.js",
+    "start:bank-of-america": "node -r dotenv/config dist/banks/bank-of-america.js",
+    "start:chase": "node -r dotenv/config dist/banks/chase.js",
+    "start:wells-fargo": "node -r dotenv/config dist/banks/wells-fargo.js",
     "watch": "tsc -w"
   },
   "dependencies": {

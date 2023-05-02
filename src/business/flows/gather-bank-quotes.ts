@@ -36,7 +36,7 @@ export const gatherBankQuotes = async (
     message: { value: JSON.stringify(application) },
     topic,
     minReplies: 3,
-    maxReplies: 5,
+    maxReplies: 4,
   });
 
   const quotes = reply.map((message) =>

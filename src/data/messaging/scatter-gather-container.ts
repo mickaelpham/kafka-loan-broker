@@ -58,6 +58,10 @@ export default ({
           const { messages, maxReplies, resolve } = gatherResponse;
           messages.push(message);
 
+          logger.info(
+            `received ${messages.length} messages out of ${maxReplies}`,
+          );
+
           if (messages.length === maxReplies) {
             gatherResponse.resolved = true;
             resolve(messages);
@@ -111,9 +115,13 @@ export default ({
 
           // If the response was already resolved, do nothing else
           if (resolved) {
+            logger.info('timeout for an already resolved reply');
             return;
           }
 
+          logger.info(
+            `timeout with ${messages.length} messages out of ${minReplies} (min)`,
+          );
           if (messages.length < minReplies) {
             reject(new Error('not enough responses gathered before timeout'));
           } else {
