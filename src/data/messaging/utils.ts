@@ -15,3 +15,9 @@ export const parseHeaders = (
     {},
   );
 };
+
+export const parseValue = (
+  value: Buffer | null,
+): Record<string, string | undefined> => {
+  return JSON.parse(value?.toString() ?? '{}');
+};

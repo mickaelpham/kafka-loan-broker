@@ -4,7 +4,8 @@ import {
   type ApprovedBankLoanQuote,
   type RejectedBankLoanQuote,
 } from './gather-bank-quotes';
-// import { retrieveCreditScore } from './retrieve-credit-score';
+import { retrieveCreditScore } from './retrieve-credit-score';
+import { logger } from '../../web/logger';
 
 interface NewLoanApplicationParams {
   ssn: string;
@@ -25,14 +26,15 @@ export const newLoanApplication = async ({
 }: NewLoanApplicationParams): Promise<NewLoanApplicationResult> => {
   const quoteId = ulid();
 
-  // const creditScore = await retrieveCreditScore(ssn);
-  const quotes = await gatherBankQuotes({ ssn, amount, creditScore: 860 });
+  logger.info('about to retrieve credit score', { ssn });
+  const creditScore = await retrieveCreditScore(ssn);
+  const quotes = await gatherBankQuotes({ ssn, amount, creditScore });
 
   return {
     quoteId,
     ssn,
     amount,
-    creditScore: 860,
+    creditScore,
     quotes,
   };
 };

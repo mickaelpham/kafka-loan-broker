@@ -6,8 +6,9 @@
     "lint": "npm run prettier:check && eslint src",
     "prettier:check": "prettier --check src",
     "prettier:write": "prettier --write src",
-    "start": "concurrently npm:start:web",
+    "start": "concurrently npm:start:web npm:start:credit-score",
     "start:web": "node -r dotenv/config dist/web/server.js",
+    "start:credit-score": "node -r dotenv/config dist/credit-score-service/index.js",
     "watch": "tsc -w"
   },
   "dependencies": {

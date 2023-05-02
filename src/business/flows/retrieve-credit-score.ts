@@ -1,4 +1,5 @@
 import { loanReplies } from '../../data/messaging/loan-replies';
+import { logger } from '../../web/logger';
 
 const topic = process.env.KAFKA_TOPIC_CREDIT_SCORE_REQUESTS;
 if (topic === undefined) {
@@ -8,6 +9,7 @@ if (topic === undefined) {
 }
 
 export const retrieveCreditScore = async (ssn: string): Promise<number> => {
+  logger.info('about to send message', { ssn });
   const reply = await loanReplies.sendAndReceive({
     message: { value: JSON.stringify({ ssn }) },
     topic,

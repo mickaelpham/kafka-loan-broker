@@ -1,6 +1,7 @@
 import { type Kafka, type Message } from 'kafkajs';
 import { ulid } from 'ulid';
 import { parseHeaders } from './utils';
+import { logger } from './logger';
 
 interface ReplyContainer {
   start: () => Promise<void>;
@@ -69,6 +70,8 @@ export default ({
 
         // store the callback in the container replies
         replies.set(correlationId, resolve);
+
+        logger.info('sending message', { correlationId });
 
         // send and forget about the message
         producer.send({ topic, messages: [messageWithHeaders] }).catch(reject);
